@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import testdriven.Template.MissingValueException;
@@ -31,7 +30,6 @@ public class TestTemplate {
 		assertTemplateEvaluatesTo("1, 2, 3");
 	}
 
-	@Ignore
 	@Test
 	public void variablesGetProcessedJustOnce() {
 		template.set("one", "${one}");

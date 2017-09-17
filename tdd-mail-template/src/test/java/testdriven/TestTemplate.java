@@ -6,8 +6,6 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-import testdriven.Template.MissingValueException;
-
 public class TestTemplate {
 	private Template template;
 

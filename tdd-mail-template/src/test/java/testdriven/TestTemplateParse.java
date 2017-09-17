@@ -10,34 +10,34 @@ import org.junit.Test;
 public class TestTemplateParse {
 	@Test
 	public void emptyTemplateRendersAsEmptyString() {
-		List<String> segments = parse("");
-		assertSegments(segments, "");
+		List<Segment> segments = parse("");
+		assertSegments(segments, new PlainText(""));
 	}
 
 	@Test
 	public void templateWithOnlyPlainText() {
-		List<String> segments = parse("plain text only");
-		assertSegments(segments, "plain text only");
+		List<Segment> segments = parse("plain text only");
+		assertSegments(segments, new PlainText("plain text only"));
 	}
 
 	@Test
 	public void parsingMultipleVariables() {
-		List<String> segments = parse("${a}:${b}:${c}");
-		assertSegments(segments, "${a}", ":", "${b}", ":", "${c}");
+		List<Segment> segments = parse("${a}:${b}:${c}");
+		assertSegments(segments, new Variable("a"), new PlainText(":"), new Variable("b"), new PlainText(":"),
+				new Variable("c"));
 	}
 
 	@Test
 	public void parsingTemplateIntoSegmentObjects() {
-		TemplateParse p = new TemplateParse();
-		List<Segment> segments = p.parseSegments("a ${b} c ${d}");
+		List<Segment> segments = parse("a ${b} c ${d}");
 		assertSegments(segments, new PlainText("a "), new Variable("b"), new PlainText(" c "), new Variable("d"));
 	}
 
-	private List<String> parse(String template) {
-		return new TemplateParse().parse(template);
+	private List<Segment> parse(String template) {
+		return new TemplateParse().parseSegments(template);
 	}
 
-	private void assertSegments(List<? extends Object> actual, Object... expected) {
+	private void assertSegments(List<Segment> actual, Segment... expected) {
 		assertEquals("Number of segments doesn't match.", expected.length, actual.size());
 		assertEquals(Arrays.asList(expected), actual);
 	}

@@ -8,7 +8,9 @@ repositories {
 }
 
 dependencies {
-	compile 'org.springframework:spring-test:4.3.11.RELEASE'
+	compile 'org.springframework:spring-webmvc:4.3.11.RELEASE'
+	compile 'org.apache.velocity:velocity:1.7'
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0' 
+	testCompile 'org.springframework:spring-test:4.3.11.RELEASE'
     testCompile 'junit:junit:4.12'
 }

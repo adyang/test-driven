@@ -7,10 +7,13 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 
 import javax.xml.namespace.QName;
@@ -36,7 +39,7 @@ public abstract class VelocityTestCase {
 		context = new VelocityContext();
 	}
 
-	protected String getWebRoot() {
+	protected String getTemplateRoot() {
 		return "/";
 	}
 
@@ -49,23 +52,38 @@ public abstract class VelocityTestCase {
 	}
 
 	protected void render(String templatePath) throws Exception {
-		File templateFile = new File(this.getClass().getResource(getWebRoot() + templatePath).toURI());
+		File templateFile = newFileFromClasspath(getTemplateRoot() + templatePath);
 		String template = readFileContent(templateFile);
 		String renderedHtml = renderTemplate(template);
 		this.document = parseHtml(renderedHtml);
 	}
 
+	private File newFileFromClasspath(String classpath) throws URISyntaxException {
+		return new File(createClasspathUri(classpath));
+	}
+
+	private URI createClasspathUri(String classpath) throws URISyntaxException {
+		return this.getClass().getResource(classpath).toURI();
+	}
+
 	private String readFileContent(File file) throws IOException {
-		try (Reader reader = new BufferedReader(
-				new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-			StringBuilder builder = new StringBuilder();
-			char[] buffer = new char[8096];
-			int read;
-			while ((read = reader.read(buffer)) > 0) {
-				builder.append(buffer, 0, read);
-			}
-			return builder.toString();
+		try (Reader reader = createBufferedReader(file)) {
+			return fileContentAsString(reader);
 		}
+	}
+
+	private BufferedReader createBufferedReader(File file) throws FileNotFoundException {
+		return new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+	}
+
+	private String fileContentAsString(Reader reader) throws IOException {
+		StringBuilder builder = new StringBuilder();
+		char[] buffer = new char[8096];
+		int numCharsRead;
+		while ((numCharsRead = reader.read(buffer)) > 0) {
+			builder.append(buffer, 0, numCharsRead);
+		}
+		return builder.toString();
 	}
 
 	private String renderTemplate(String template) {

@@ -6,7 +6,7 @@ import parameters.LoginParam;
 
 public class TestLoginTemplate extends VelocityTestCase {
 	@Override
-	protected String getWebRoot() {
+	protected String getTemplateRoot() {
 		return "/velocity";
 	}
 

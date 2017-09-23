@@ -13,7 +13,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 public class TestLoginServlet {
-
 	private static final String CORRECT_PASSWORD = "correctpassword";
 	private static final String VALID_USERNAME = "validuser";
 	private HttpServlet servlet;
@@ -39,16 +38,16 @@ public class TestLoginServlet {
 
 	@Test
 	public void wrongPasswordShouldRedirectToErrorPage() throws ServletException, IOException {
-		request.addParameter("j_username", VALID_USERNAME);
-		request.addParameter("j_password", "wrongpassword");
+		request.addParameter(LoginParam.USERNAME.paramName(), VALID_USERNAME);
+		request.addParameter(LoginParam.PASSWORD.paramName(), "wrongpassword");
 		servlet.service(request, response);
 		assertEquals("/invalidlogin", response.getRedirectedUrl());
 	}
 
 	@Test
 	public void validLoginForwardsToFrontPageAndStoresUsername() throws ServletException, IOException {
-		request.addParameter("j_username", VALID_USERNAME);
-		request.addParameter("j_password", CORRECT_PASSWORD);
+		request.addParameter(LoginParam.USERNAME.paramName(), VALID_USERNAME);
+		request.addParameter(LoginParam.PASSWORD.paramName(), CORRECT_PASSWORD);
 		servlet.service(request, response);
 		assertEquals("/frontpage", response.getRedirectedUrl());
 		assertEquals(VALID_USERNAME, request.getSession().getAttribute("username"));

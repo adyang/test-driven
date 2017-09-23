@@ -7,10 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = -584378267922974585L;
+
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String user = request.getParameter("j_username");
-		String pass = request.getParameter("j_password");
+		String user = request.getParameter(LoginParam.USERNAME.paramName());
+		String pass = request.getParameter(LoginParam.PASSWORD.paramName());
 		if (getAuthenticationService().isValidLogin(user, pass)) {
 			response.sendRedirect("/frontpage");
 			request.getSession().setAttribute("username", user);

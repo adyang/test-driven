@@ -1,7 +1,9 @@
-package servlet;
+package authentication;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import authentication.AuthenticationService;
 
 public class FakeAuthenticationService implements AuthenticationService {
 	private Map<String, String> users = new HashMap<String, String>();

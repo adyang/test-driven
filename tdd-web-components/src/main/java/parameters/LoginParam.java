@@ -1,4 +1,4 @@
-package servlet;
+package parameters;
 
 public enum LoginParam {
 	USERNAME("j_username"), PASSWORD("j_password");

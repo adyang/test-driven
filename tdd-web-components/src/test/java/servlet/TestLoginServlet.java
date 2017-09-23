@@ -12,6 +12,10 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import authentication.AuthenticationService;
+import authentication.FakeAuthenticationService;
+import parameters.LoginParam;
+
 public class TestLoginServlet {
 	private static final String CORRECT_PASSWORD = "correctpassword";
 	private static final String VALID_USERNAME = "validuser";

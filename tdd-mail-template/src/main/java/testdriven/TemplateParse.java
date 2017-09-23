@@ -52,8 +52,4 @@ public class TemplateParse {
 			segments.add(new PlainText(""));
 		}
 	}
-
-	private boolean isVariable(String segment) {
-		return segment.startsWith("${") && segment.endsWith("}");
-	}
 }
